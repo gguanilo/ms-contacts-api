@@ -8,6 +8,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+import static java.util.stream.Collectors.toList;
+
 @Service
 public class ContactsServiceImpl implements ContactsService {
     private final ContactRepository contactRepository;
@@ -20,7 +22,10 @@ public class ContactsServiceImpl implements ContactsService {
 
     @Override
     public List<Contact> getContacts() {
-        return contactMapper.toContact(contactRepository.findAll());
+        return contactRepository.findAll()
+                .stream()
+                .map(contactMapper::toContact)
+                .collect(toList());
     }
 
     @Override
